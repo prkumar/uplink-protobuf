@@ -20,7 +20,6 @@ class ProtocolBuffersConverter(converters.ConverterFactory):
         # Method annotations are passed in as list iterator. This is
         # fixed in Uplink v0.6.0
         method_annotations = list(method_annotations)
-        print("Method Annotations:" + str(method_annotations))
 
         if helpers.has_value_of_type(method_annotations, protobuf.from_json):
             # Grab the first _FromJson annotation
@@ -48,7 +47,6 @@ class ProtocolBuffersConverter(converters.ConverterFactory):
         # Method annotations are passed in as list iterator. This is
         # fixed in Uplink v0.6.0
         method_annotations = list(method_annotations)
-        print("Method Annotations:" + str(method_annotations))
 
         if helpers.has_value_of_type(method_annotations, protobuf.send_json):
             annotation = helpers.get_first_of_type(
