@@ -30,6 +30,7 @@ class ProtocolBuffersConverter(converters.Factory):
         Builds a callable that converts a protobuf message into a Python
         dictionary.
         """
+
         def converter(msg):
             return json_format.MessageToDict(msg, **other)
 
@@ -62,8 +63,7 @@ class ProtocolBuffersConverter(converters.Factory):
         if helpers.has_value_of_type(method_annotations, from_json):
             # Return callable that can decode JSON response to Protobuf
             # message
-            annotation = helpers.get_first_of_type(
-                method_annotations, from_json)
+            annotation = helpers.get_first_of_type(method_annotations, from_json)
             return self.create_json_deserializer(cls, **annotation.options)
 
         elif helpers.has_value_of_type(method_annotations, returns.json):
@@ -77,6 +77,7 @@ class ProtocolBuffersConverter(converters.Factory):
             def converter(response):
                 msg = cls()
                 msg.ParseFromString(response.content)
+
             return converter
 
     def create_request_body_converter(self, cls, request_definition):
@@ -104,5 +105,5 @@ class ProtocolBuffersConverter(converters.Factory):
             # Return callable that can serialize Protobuf message.
             def converter(msg):
                 return msg.SerializeToString()
-            return converter
 
+            return converter
