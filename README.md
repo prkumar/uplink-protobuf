@@ -8,8 +8,6 @@ Send and receive protobuf messages over HTTP, with ease.
 $ pip install uplink-protobuf
 ```
 
-*Requires [Uplink](https://github.com/prkumar/uplink) v0.6.0 or later.
-
 ## Usage
 
 ### Receiving Protobuf Messages
