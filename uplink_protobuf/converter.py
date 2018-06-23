@@ -1,62 +1,108 @@
+# Static imports
+import inspect
+
 # Third party imports
+from google.protobuf import message, json_format
 from uplink import converters, returns, json
 
 # Local imports
-from uplink_protobuf import helpers
-from uplink_protobuf.decorators import protobuf
+from uplink_protobuf import helpers, from_json, to_json
 
 
 __all__ = ["ProtocolBuffersConverter"]
 
 
-class ProtocolBuffersConverter(converters.ConverterFactory):
+class ProtocolBuffersConverter(converters.Factory):
 
-    def make_response_body_converter(self, cls, argument_annotations,
-                                     method_annotations):
-        if not helpers.is_protocol_buffer_class(cls):
-            # We cannot handle this type.
+    # === BEGIN Helpers === #
+
+    @staticmethod
+    def is_protocol_buffer_class(cls):
+        """
+        Returns whether or not the given `cls` is a protobuf message
+        subclass.
+        """
+        return inspect.isclass(cls) and issubclass(cls, message.Message)
+
+    @staticmethod
+    def create_json_serializer(**other):
+        """
+        Builds a callable that converts a protobuf message into a Python
+        dictionary.
+        """
+        def converter(msg):
+            return json_format.MessageToDict(msg, **other)
+
+        return converter
+
+    @staticmethod
+    def create_json_deserializer(message_cls, **other):
+        """
+        Builds a callable that converts a JSON response into a protobuf
+        message.
+        """
+
+        def converter(response):
+            msg = message_cls()
+            return json_format.ParseDict(response, msg, **other)
+
+        return converter
+
+    # === END Helpers === #
+
+    def create_response_body_converter(self, cls, request_definition):
+        if not self.is_protocol_buffer_class(cls):
+            # Returning None tells Uplink's converter layer that we
+            # can't handle this type, so it can move on to the next
+            # factory.
             return None
 
-        # Method annotations are passed in as list iterator. This is
-        # fixed in Uplink v0.6.0
-        method_annotations = list(method_annotations)
+        method_annotations = request_definition.method_annotations
 
-        if helpers.has_value_of_type(method_annotations, protobuf.from_json):
-            # Grab the first _FromJson annotation
+        if helpers.has_value_of_type(method_annotations, from_json):
+            # Return callable that can decode JSON response to Protobuf
+            # message
             annotation = helpers.get_first_of_type(
-                method_annotations, protobuf.from_json)
-            return helpers.create_json_deserializer(cls, **annotation.options)
+                method_annotations, from_json)
+            return self.create_json_deserializer(cls, **annotation.options)
 
         elif helpers.has_value_of_type(method_annotations, returns.json):
-            # Return from JSON
-            return helpers.create_json_deserializer(cls)
+            # Return callable that can decode JSON response to Protobuf
+            # message
+            return self.create_json_deserializer(cls)
 
         else:
+            # Return callable that can decode Protobuf message from
+            # response content.
             def converter(response):
                 msg = cls()
                 msg.ParseFromString(response.content)
             return converter
 
-    def make_request_body_converter(self, cls, argument_annotations,
-                                    method_annotations):
+    def create_request_body_converter(self, cls, request_definition):
 
-        if not helpers.is_protocol_buffer_class(cls):
-            # We cannot handle this type.
+        if not self.is_protocol_buffer_class(cls):
+            # Returning None tells Uplink's converter layer that we
+            # can't handle this type, so it can move on to the next
+            # factory.
             return None
 
-        # Method annotations are passed in as list iterator. This is
-        # fixed in Uplink v0.6.0
-        method_annotations = list(method_annotations)
+        method_annotations = request_definition.method_annotations
 
-        if helpers.has_value_of_type(method_annotations, protobuf.send_json):
-            annotation = helpers.get_first_of_type(
-                method_annotations, protobuf.send_json)
-            return helpers.create_json_serializer(**annotation.options)
+        if helpers.has_value_of_type(method_annotations, to_json):
+            # Return callable that can encode Protobuf message into
+            # JSON.
+            annotation = helpers.get_first_of_type(method_annotations, to_json)
+            return self.create_json_serializer(**annotation.options)
 
         elif helpers.has_value_of_type(method_annotations, json):
-            return helpers.create_json_serializer()
+            # Return callable that can encode Protobuf message into
+            # JSON.
+            return self.create_json_serializer()
 
         else:
+            # Return callable that can serialize Protobuf message.
             def converter(msg):
                 return msg.SerializeToString()
             return converter
+

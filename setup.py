@@ -7,14 +7,14 @@ import os
 from setuptools import find_packages, setup
 
 # Package meta-data.
-NAME = 'uplink_protobuf'
+NAME = 'uplink-protobuf'
 DESCRIPTION = 'Protocol Buffers (Protobuf) support for Uplink.'
 URL = 'https://github.com/prkumar/uplink-protobuf'
 EMAIL = 'raj.pritvi.kumar@gmail.com'
 AUTHOR = 'P. Raj Kumar'
 
 # What packages are required for this module to be executed?
-REQUIRED = ["uplink", "protobuf"]
+REQUIRED = ["uplink>=0.6.0", "protobuf"]
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -26,7 +26,7 @@ with io.open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
 
 # Load the package's __about__.py module as a dictionary.
 about = {}
-with open(os.path.join(here, NAME, '__about__.py')) as f:
+with open(os.path.join(here, "uplink_protobuf", '__about__.py')) as f:
     exec(f.read(), about)
 
 
@@ -40,10 +40,13 @@ setup(
     author=AUTHOR,
     author_email=EMAIL,
     url=URL,
-    packages=find_packages(exclude=('tests',)),
+    packages=find_packages(exclude=("tests",)),
     install_requires=REQUIRED,
     include_package_data=True,
     license='MIT',
+    entry_points={
+        'uplink.plugins.converters':
+            'protobuf = uplink_protobuf:ProtocolBuffersConverter'},
     classifiers=[
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
