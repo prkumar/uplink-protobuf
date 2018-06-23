@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "fe92251da01c2f6102f470d4b21a03171f7e83bd3037f8be9e9f4d735ac315f8"
+            "sha256": "652fb68b4134da1d32871160791a0c472a4587718b695a79961c2e4ab26f5e77"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -74,11 +74,8 @@
             "version": "==1.11.0"
         },
         "uplink": {
-            "hashes": [
-                "sha256:2e4cce1fa501c0613d51d88cdc2dbe3b2630bcb7cdc454a698318f5802c34147",
-                "sha256:4ae291e7267529aa483a538fac205fe77022712e21d4b413dfbc8d6b72393fa5"
-            ],
-            "version": "==0.5.3"
+            "editable": true,
+            "git": "https://github.com/prkumar/uplink.git"
         },
         "uritemplate": {
             "hashes": [
