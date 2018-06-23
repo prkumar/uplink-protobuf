@@ -15,6 +15,9 @@ AUTHOR = 'P. Raj Kumar'
 
 # What packages are required for this module to be executed?
 REQUIRED = ["uplink>=0.6.0", "protobuf"]
+EXTRAS_REQUIRE = {
+    "tests": ["pytest", "pytest-mock", "pytest-cov"],
+}
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -42,6 +45,7 @@ setup(
     url=URL,
     packages=find_packages(exclude=("tests",)),
     install_requires=REQUIRED,
+    extras_require=EXTRAS_REQUIRE,
     include_package_data=True,
     license='MIT',
     entry_points={
@@ -50,6 +54,7 @@ setup(
     classifiers=[
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
+        "Development Status :: 4 - Beta",
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
@@ -62,5 +67,6 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy'
-    ]
+    ],
+    keywords="http api rest client retrofit protobuf protocol buffers",
 )
