@@ -1,4 +1,4 @@
-# [Uplink](https://github.com/prkumar/uplink) + [Protocol Buffers](https://github.com/google/protobuf) = 💖
+# [Uplink](https://github.com/prkumar/uplink) + [Protocol Buffers](https://github.com/google/protobuf) = [💖](http://www.dictionary.com/browse/bliss)
 
 Send and receive protobuf messages over HTTP, with ease.
 
