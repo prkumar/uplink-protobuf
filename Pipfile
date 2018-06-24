@@ -4,8 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-"e1839a8" = {path = ".", editable = true, extras=["tests"]}
 uplink = {git = "https://github.com/prkumar/uplink.git", editable = true}
+"e1839a8" = {path = ".", editable = true, extras=["tests"]}
 
 [dev-packages]
 pre-commit = "*"
