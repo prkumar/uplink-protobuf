@@ -18,7 +18,7 @@ EXTRAS_REQUIRE = {"tests": ["pytest", "pytest-mock", "pytest-cov"]}
 
 # Import the README and use it as the long-description.
 # Note: this will only work if 'README.md' is present in your MANIFEST.in file!
-with open(os.path.join("README.md"), encoding="utf-8") as f:
+with open(os.path.join("README.md")) as f:
     long_description = "\n" + f.read()
 
 
