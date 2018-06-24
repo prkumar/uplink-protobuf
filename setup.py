@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import io
 import os
 
 from setuptools import find_packages, setup
@@ -18,8 +19,11 @@ EXTRAS_REQUIRE = {"tests": ["pytest", "pytest-mock", "pytest-cov"]}
 
 # Import the README and use it as the long-description.
 # Note: this will only work if 'README.md' is present in your MANIFEST.in file!
-with open(os.path.join("README.md")) as f:
-    long_description = "\n" + f.read()
+try:
+    with io.open(os.path.join("README.md"), encoding="utf-8") as f:
+        long_description = "\n" + f.read()
+except FileNotFoundError:
+    long_description = ""
 
 
 # Load the package's __about__.py module as a dictionary.
