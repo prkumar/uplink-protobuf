@@ -17,17 +17,15 @@ AUTHOR = "P. Raj Kumar"
 REQUIRED = ["uplink>=0.6.0", "protobuf"]
 EXTRAS_REQUIRE = {"tests": ["pytest", "pytest-mock", "pytest-cov"]}
 
-here = os.path.abspath(os.path.dirname(__file__))
-
 # Import the README and use it as the long-description.
 # Note: this will only work if 'README.md' is present in your MANIFEST.in file!
-with io.open(os.path.join(here, "README.md"), encoding="utf-8") as f:
+with io.open(os.path.join("README.md"), encoding="utf-8") as f:
     long_description = "\n" + f.read()
 
 
 # Load the package's __about__.py module as a dictionary.
 about = {}
-with open(os.path.join(here, "uplink_protobuf", "__about__.py")) as f:
+with open(os.path.join("uplink_protobuf", "__about__.py")) as f:
     exec(f.read(), about)
 
 
@@ -60,7 +58,7 @@ setup(
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.3",
-        "Programming Language :: Python :: 3.4"
+        "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: Implementation :: CPython",
