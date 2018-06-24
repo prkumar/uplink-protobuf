@@ -1,4 +1,8 @@
 # Uplink + Protocol Buffers
+[![Build Status](https://travis-ci.org/prkumar/uplink-protobuf.svg?branch=master)](https://travis-ci.org/prkumar/uplink-protobuf)
+[![codecov](https://codecov.io/gh/prkumar/uplink-protobuf/branch/master/graph/badge.svg)](https://codecov.io/gh/prkumar/uplink-protobuf)
+[![Maintainability](https://api.codeclimate.com/v1/badges/65d2d66958c6e20a3bb0/maintainability)](https://codeclimate.com/github/prkumar/uplink-protobuf/maintainability)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 Send and receive protobuf messages over HTTP, with ease.
 
