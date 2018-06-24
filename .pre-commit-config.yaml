@@ -10,4 +10,3 @@ repos:
     - id: flake8
       name: flake8
       python-version: python3.6
-      files: ^(uplink_protobuf|tests)\/.+\.py$
