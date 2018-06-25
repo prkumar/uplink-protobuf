@@ -15,8 +15,8 @@ This library is an [Uplink](https://github.com/prkumar/uplink) plugin.
     * **[Receiving Protobuf Messages](#receiving-protobuf-messages)**
     * **[Sending Protobuf Messages](#sending-protobuf-messages)**
 - **[Communicating with a JSON API](#communicating-with-a-json-api)**
-    * **[Decoding JSON Responses](#decoding-json-responses)**
-    * **[Encoding JSON Requests](#encoding-json-requests)**
+    * **[Converting JSON Responses into Protobuf Messages](#converting-json-responses-into-protobuf-messages)**
+    * **[Converting Protobuf Messages into JSON Requests](#converting-protobuf-messages-into-json-requests)**
 - **[FAQs](#faqs)**
 
 ## Installation
@@ -97,7 +97,7 @@ addressbook_client.create_person(person)
 This library also supports converting JSON responses and requests
 to and from protobuf messages.
 
-### Decoding JSON Responses
+### Converting JSON Responses into Protobuf Messages
 
 `uplink-protobuf` can automatically convert JSON responses into
 protobuf messages if the `Consumer` method is annotated with
@@ -136,7 +136,7 @@ class AddressBookClient(Consumer):
         pass
 ```
 
-### Encoding JSON Requests
+### Converting Protobuf Messages into JSON Requests
 
 `uplink-protobuf` can automatically convert a protobuf message into
 JSON request body if the `Consumer` method is annotated with
