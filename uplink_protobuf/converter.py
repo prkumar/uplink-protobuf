@@ -6,7 +6,11 @@ from google.protobuf import message, json_format
 from uplink import converters, returns, json
 
 # Local imports
-from uplink_protobuf import helpers, from_json, to_json
+from uplink_protobuf import (
+    helpers,
+    configure_json_response,
+    configure_json_request,
+)
 
 
 __all__ = ["ProtocolBuffersConverter"]
@@ -59,17 +63,22 @@ class ProtocolBuffersConverter(converters.Factory):
             return None
 
         method_annotations = request_definition.method_annotations
+        options = {}
 
-        if helpers.has_value_of_type(method_annotations, from_json):
+        if helpers.has_value_of_type(
+            method_annotations, configure_json_response
+        ):
             # Return callable that can decode JSON response to Protobuf
             # message
-            annotation = helpers.get_first_of_type(method_annotations, from_json)
-            return self.create_json_deserializer(cls, **annotation.options)
+            annotation = helpers.get_first_of_type(
+                method_annotations, configure_json_response
+            )
+            options = annotation.options
 
-        elif helpers.has_value_of_type(method_annotations, returns.json):
+        if helpers.has_value_of_type(method_annotations, returns.json):
             # Return callable that can decode JSON response to Protobuf
             # message
-            return self.create_json_deserializer(cls)
+            return self.create_json_deserializer(cls, **options)
 
         else:
             # Return callable that can decode Protobuf message from
@@ -89,17 +98,22 @@ class ProtocolBuffersConverter(converters.Factory):
             return None
 
         method_annotations = request_definition.method_annotations
+        options = {}
 
-        if helpers.has_value_of_type(method_annotations, to_json):
+        if helpers.has_value_of_type(
+            method_annotations, configure_json_request
+        ):
             # Return callable that can encode Protobuf message into
             # JSON.
-            annotation = helpers.get_first_of_type(method_annotations, to_json)
-            return self.create_json_serializer(**annotation.options)
+            annotation = helpers.get_first_of_type(
+                method_annotations, configure_json_request
+            )
+            options = annotation.options
 
-        elif helpers.has_value_of_type(method_annotations, json):
+        if helpers.has_value_of_type(method_annotations, json):
             # Return callable that can encode Protobuf message into
             # JSON.
-            return self.create_json_serializer()
+            return self.create_json_serializer(**options)
 
         else:
             # Return callable that can serialize Protobuf message.

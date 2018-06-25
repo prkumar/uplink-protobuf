@@ -1,16 +1,16 @@
 # Third party imports
-from uplink import returns, json
+from uplink import decorators
 
-__all__ = ["from_json", "to_json"]
+__all__ = ["configure_json_response", "configure_json_request"]
 
 
 # noinspection PyPep8Naming
-class from_json(returns.json):
-    _can_be_static = True
+class configure_json_response(decorators.MethodAnnotation):
+    _can_be_static = False
 
-    def __init__(self, model=None, member=(), ignore_unknown_fields=False):
-        super(from_json, self).__init__(model=model, member=member)
+    def __init__(self, ignore_unknown_fields=False, **kwargs):
         self._options = {"ignore_unknown_fields": ignore_unknown_fields}
+        self._options.update(kwargs)
 
     @property
     def options(self):
@@ -18,21 +18,22 @@ class from_json(returns.json):
 
 
 # noinspection PyPep8Naming
-class to_json(json):
-    _can_be_static = True
+class configure_json_request(decorators.MethodAnnotation):
+    _can_be_static = False
 
     def __init__(
         self,
-        including_default_value_fields=False,
-        preserving_proto_field_name=False,
+        include_default_value_fields=False,
+        preserve_proto_field_names=False,
         use_integers_for_enums=False,
+        **kwargs
     ):
-        super(to_json, self).__init__()
         self._options = {
-            "including_default_value_fields": including_default_value_fields,
-            "preserving_proto_field_name": preserving_proto_field_name,
+            "including_default_value_fields": include_default_value_fields,
+            "preserving_proto_field_name": preserve_proto_field_names,
             "use_integers_for_enums": use_integers_for_enums,
         }
+        self._options.update(kwargs)
 
     @property
     def options(self):

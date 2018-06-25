@@ -2,7 +2,11 @@
 from uplink import json, returns
 
 # Local imports
-from uplink_protobuf import ProtocolBuffersConverter, from_json, to_json
+from uplink_protobuf import (
+    ProtocolBuffersConverter,
+    configure_json_response,
+    configure_json_request,
+)
 
 
 def patch_is_protocol_buffer_class(mocker, return_value):
@@ -78,7 +82,8 @@ def test_create_response_body_converter__from_json(
     # Setup
     json_response = {"hello": "world"}
     request_definition_mock.method_annotations = (
-        from_json(ignore_unknown_fields=True),
+        configure_json_response(ignore_unknown_fields=True),
+        returns.from_json(),
     )
     ParseDict = mocker.patch("google.protobuf.json_format.ParseDict")
 
@@ -93,7 +98,9 @@ def test_create_response_body_converter__from_json(
     )
 
 
-def test_create_request_body_converter(mocker, message_mock, request_definition_mock):
+def test_create_request_body_converter(
+    mocker, message_mock, request_definition_mock
+):
     # Setup
     request_definition_mock.method_annotations = ()
 
@@ -127,11 +134,12 @@ def test_create_request_body_converter__to_json(
 ):
     # Setup
     request_definition_mock.method_annotations = (
-        to_json(
+        configure_json_request(
             including_default_value_fields=True,
             preserving_proto_field_name=True,
             use_integers_for_enums=True,
         ),
+        json(),
     )
     MessageToDict = mocker.patch("google.protobuf.json_format.MessageToDict")
 
@@ -154,7 +162,9 @@ def test_create_response_body_converter__not_protocol_buffer_class(
 ):
     # Run & Verify
     factory = ProtocolBuffersConverter()
-    converter = factory.create_response_body_converter(object, request_definition_mock)
+    converter = factory.create_response_body_converter(
+        object, request_definition_mock
+    )
     assert converter is None
 
 
@@ -163,5 +173,7 @@ def test_create_request_body_converter__not_protocol_buffer_class(
 ):
     # Run & Verify
     factory = ProtocolBuffersConverter()
-    converter = factory.create_request_body_converter(object, request_definition_mock)
+    converter = factory.create_request_body_converter(
+        object, request_definition_mock
+    )
     assert converter is None
