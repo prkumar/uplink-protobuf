@@ -142,35 +142,36 @@ There are also a few decorators we provide that allows you to control
 the JSON conversion. These decorators are available through the
 `uplink_protobuf.json_options` submodule.
 
+#### Options for Sending JSON Requests
 
-#### Options for JSON Parsing
-
-Here are options that can be used with `@returns.json`, to control
-the conversion of JSON responses to protobuf messages:
+Here are options that can be used with `@json`, to control
+the conversion of protobuf messages to JSON objects:
 
 - `@json_options.include_default_value_fields`: This decorator
-  indicates that JSON output should include fields with their default
-  values.By default, default values are omitted if the field is not set.
+  indicates that the JSON output should include fields with their default
+  values. By default, default values are omitted if the field is not set.
 - `@json_options.preserve_proto_field_names`: This decorator indicates
-  that the JSON output should use the proto field name as the JSON name.
-  By default, the JSON printer converts the proto field names to
+  that the JSON output should use the proto field names as the JSON names.
+  By default, the JSON printer converts each proto field name to
   lowerCamelCase and uses that as the JSON name.
 - `@json_options.use_integers_for_enums`: This decorator indicates that
   the JSON output should use the numerical value of a proto enum value,
   instead of the name of the enum value. By default, the name of an
   enum value is used in the JSON output.
 
-#### Options for JSON Output
 
-Next, here are options that can be used with `@json`, to control
-the conversion of protobuf messages to JSON objects:
+#### Options for Parsing JSON Responses
 
+Next, Here are options that can be used with `@returns.json`, to control
+the conversion of JSON responses to protobuf messages:
+  
 - `@json_options.ignore_unknown_fields`: This decorator indicates
   that the JSON parser should ignore unknown fields in parsing.
   By default, the JSON parser raises an error if it encounters
   an unknown field.
 
- Finally, here's an example of a `Consumer` that uses these options:
+  
+Finally, here's an example of a `Consumer` that uses these options:
 ```python
 from uplink import Consumer, post, Body
 from uplink_protobuf import json_options
@@ -187,6 +188,7 @@ class AddressBookClient(Consumer):
         pass
 
     @json_options.include_default_value_fields
+    @json
     @post("/persons")
     def create_person(self, person: Body(type=Person)):
         pass
