@@ -181,14 +181,14 @@ from addressbook_pb2.py import Person
 
 class AddressBookClient(Consumer):
 
-    @json_options.ignore_unknown_fields
     @returns.from_json
+    @json_options.ignore_unknown_fields
     @get("/persons/{person_id}")
     def get_person(self, id) -> Person:
         pass
 
-    @json_options.include_default_value_fields
     @json
+    @json_options.include_default_value_fields
     @post("/persons")
     def create_person(self, person: Body(type=Person)):
         pass
