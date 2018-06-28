@@ -4,8 +4,7 @@ from uplink import json, returns
 # Local imports
 from uplink_protobuf import (
     ProtocolBuffersConverter,
-    configure_json_response,
-    configure_json_request,
+    json_options
 )
 
 
@@ -82,7 +81,7 @@ def test_create_response_body_converter__from_json(
     # Setup
     json_response = {"hello": "world"}
     request_definition_mock.method_annotations = (
-        configure_json_response(ignore_unknown_fields=True),
+        json_options.ignore_unknown_fields(),
         returns.from_json(),
     )
     ParseDict = mocker.patch("google.protobuf.json_format.ParseDict")
@@ -134,11 +133,9 @@ def test_create_request_body_converter__to_json(
 ):
     # Setup
     request_definition_mock.method_annotations = (
-        configure_json_request(
-            including_default_value_fields=True,
-            preserving_proto_field_name=True,
-            use_integers_for_enums=True,
-        ),
+        json_options.include_default_value_fields(),
+        json_options.preserve_proto_field_names(),
+        json_options.use_integers_for_enums(),
         json(),
     )
     MessageToDict = mocker.patch("google.protobuf.json_format.MessageToDict")
