@@ -42,7 +42,7 @@ from addressbook_pb2.py import Person
 
 class AddressBookClient(Consumer):
     @get("/persons/{person_id}")
-    def get_person(self, id) -> Person:
+    def get_person(self, person_id) -> Person:
         pass
 ```
 
@@ -113,7 +113,7 @@ from addressbook_pb2.py import Person
 class AddressBookClient(Consumer):
     @returns.from_json
     @get("/persons/{person_id}")
-    def get_person(self, id) -> Person:
+    def get_person(self, person_id) -> Person:
         pass
 ```
 
@@ -184,7 +184,7 @@ class AddressBookClient(Consumer):
     @returns.from_json
     @json_options.ignore_unknown_fields
     @get("/persons/{person_id}")
-    def get_person(self, id) -> Person:
+    def get_person(self, person_id) -> Person:
         pass
 
     @json
