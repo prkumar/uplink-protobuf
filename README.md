@@ -52,9 +52,9 @@ response into the specified message type:
 ```python
 >>> addressbook_client = AddressBookClient(base_url=BASE_URL)
 >>> addressbook_client.get_person(1234)
-name: "Haley Arganbright"
+name: "Omar Little"
 id: 1234
-email: "haley.arganbright@example.com"
+email: "omar.little@example.com"
 phones {
   number: "555-4321"
   type: HOME
@@ -84,9 +84,9 @@ automatically encoded:
 ```python
 # Register new person:
 person = Person()
-person.name = "Susie Morales"
+person.name = "Stringer Bell"
 person.id = 5678
-person.email = "susie.morales@example.com"
+person.email = "stringer.bell@example.com"
 
 # Send person to API:
 addressbook_client = AddressBookClient(base_url=BASE_URL)
