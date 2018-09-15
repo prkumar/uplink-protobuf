@@ -1,15 +1,26 @@
 language: python
 python:
-  - '2.7'
-  - '3.4'
-  - '3.5'
-  - '3.6'
+- '2.7'
+- '3.4'
+- '3.5'
+- '3.6'
 before_script:
-  - pip install tox
-  - if [[ $TRAVIS_PYTHON_VERSION == 3.6 ]]; then pip install flake8 flake8-bugbear; fi
+- pip install tox
+- if [[ $TRAVIS_PYTHON_VERSION == 3.6 ]]; then pip install flake8 flake8-bugbear;
+  fi
 script:
-  - tox -e py
-  - if [[ $TRAVIS_PYTHON_VERSION == 3.6 ]]; then flake8 uplink_protobuf tests setup.py; fi
+- tox -e py
+- if [[ $TRAVIS_PYTHON_VERSION == 3.6 ]]; then flake8 uplink_protobuf tests setup.py;
+  fi
 after_success:
-  - pip install codecov
-  - codecov
+- pip install codecov
+- codecov
+deploy:
+  provider: pypi
+  user: prkumar
+  password:
+    secure: qYTyu2gc17tYFWu9KcJ877tOVJAaYK4A0TtHf8d+xqPx1ZH9Y6uLbpRJwq0eO3nnBywTmt5KzqejuyMvt9O5LxWynCNmAO7X3gNXIb3a9GJSK2dvgOfM4djXDo+OWzh67sDAuyVeZBqOCwmWcyDWV1OOCgtdDAGhWja4izuqyLjH9u1X0m8b81bEkeNUnRbWo5BqKwi7EJFlEf/AMt+miawL11ULj1oBAJJsoFNPYzHLy6PFtbqfjrfQPhU+3CGB3jei1Pq3XedWXfUcoZXVWB03JKk1DP4pphdREAUHCkjlGIO8NtpiyrQKZYpkmRa5OHuxOi+EBLSz4dJvxWHO6OUUxOIovzw99IRrFDdvZO092F0wumb5R0JLVneSE9s5ElZ6IaEHnUKAmIZ5B7Unodx3Ru2jGCH64q+/LoZiTdv6W1IUIr0oViijlMrSlVbM2+MSFDZh65Ps7J0D9Svkd9pMe5VKuezgTOL5RrkNqrIod8nKqBr1SwREdiTZ91LC/YnEbKwFej5xfJiT1QbT6udFrFcJe7b33E1m3yPC3MKscOYpgXwGehD2qQPTVVbxAn+uI7gHvAey3xElDJwAe9RGVKLpA8IkUl4/nvM1ez5JVnubMx+0JZt71otgy+47sOqjgeqxnnJwibKNORe12SHGmNtumMVjQvY+MUCMHRM=
+  on:
+    tags: true
+    python: '3.6'
+  distributions: sdist bdist_wheel
