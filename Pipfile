@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+requests = ">=2.20.0"
 uplink = {git = "https://github.com/prkumar/uplink.git", editable = true}
 "e1839a8" = {path = ".", editable = true, extras=["tests"]}
 
